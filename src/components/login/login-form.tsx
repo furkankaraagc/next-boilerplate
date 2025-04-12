@@ -1,6 +1,7 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Lock, User } from 'lucide-react';
+import { redirect } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -49,11 +50,11 @@ export default function LoginForm() {
         '/api/login',
         { username: values.username, password: values.password },
         {
-          withCredentials: true,
           headers: { 'Content-Type': 'application/json' },
         },
       );
       toast.success('Login successful');
+      redirect('/');
     } catch (error) {
       toast.error('Login failed');
     }

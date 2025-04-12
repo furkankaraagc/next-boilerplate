@@ -5,23 +5,25 @@ export const API_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL;
 export const axios = a.create({
   baseURL: API_BASE_URL,
 });
-axios.interceptors.response.use(
-  (res) => res,
-  async (err) => {
-    if (err.response.status === 401) {
-      const refreshRes = await axios.post('/api/refresh', {}, { withCredentials: true });
+// axios.interceptors.response.use(
+//   (res) => res,
+//   async (err) => {
+//     if (err.response.status === 401) {
+//       const refreshRes = await axios.post('/api/refresh', {}, { withCredentials: true });
 
-      if (refreshRes.status === 200) {
-        const newAccessToken = refreshRes.data.accessToken;
-        // token'ı güncelle
-        err.config.headers.Authorization = `Bearer ${newAccessToken}`;
-        return axios(err.config); // isteği tekrar dene
-      }
-    }
+//       if (refreshRes.status === 200) {
+//         const newAccessToken = refreshRes.data.accessToken;
+//         err.config.headers.Authorization = `Bearer ${newAccessToken}`;
+//         return axios(err.config); // isteği tekrar dene
+//       }
+//     }
+//     if (err.response.status === 403) {
+//       window.location.href = '/login';
+//     }
 
-    return Promise.reject(err);
-  },
-);
+//     return Promise.reject(err);
+//   },
+// );
 // axios.interceptors.request.use(async (config) => {
 //   const cookie = document.cookie
 //     .split(';')
